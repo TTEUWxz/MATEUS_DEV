@@ -202,15 +202,24 @@
 
     /* ── HERO ── */
     #hero {
-      padding: 150px 0 100px;
+      padding: 130px 0 90px;
       background: linear-gradient(160deg, #fff 60%, #EFF6FF 100%);
-      text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    /* Floating particles canvas */
     #particles { position: absolute; inset: 0; pointer-events: none; }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-photo  { order: -1; }
+    }
 
     .hero-badge {
       display: inline-flex;
@@ -224,7 +233,6 @@
       font-size: .8rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
-      position: relative;
     }
     .hero-badge .dot {
       width: 7px; height: 7px;
@@ -234,23 +242,17 @@
     }
     @keyframes blink {
       0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
-      50% { opacity: .6; box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+      50%       { opacity: .6; box-shadow: 0 0 0 5px rgba(34,197,94,0); }
     }
 
-    #hero h1 { max-width: 800px; margin: 0 auto .75rem; position: relative; }
-    #hero h1 span { color: var(--blue); }
-    #hero .sub {
-      font-size: 1.15rem;
-      max-width: 560px;
-      margin: 0 auto 2.5rem;
-      color: var(--muted);
-    }
+    .hero-text h1 { margin-bottom: .75rem; }
+    .hero-text h1 span { color: var(--blue); }
+    #hero .sub { font-size: 1.1rem; max-width: 520px; margin: 0 0 2rem; color: var(--muted); }
+    @media (max-width: 860px) { #hero .sub { margin: 0 auto 2rem; } }
 
-    /* Typing cursor */
     .typed-cursor {
       display: inline-block;
-      width: 3px;
-      height: 1em;
+      width: 3px; height: 1em;
       background: var(--blue);
       vertical-align: text-bottom;
       margin-left: 3px;
@@ -258,19 +260,17 @@
     }
     @keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
 
-    .hero-ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+    @media (max-width: 860px) { .hero-ctas { justify-content: center; } }
+
     .hero-stack {
-      margin-top: 3.5rem;
+      margin-top: 2.5rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: .6rem;
     }
+    @media (max-width: 860px) { .hero-stack { justify-content: center; } }
+
     .stack-tag {
       background: var(--white);
       border: 1px solid var(--border);
@@ -282,11 +282,45 @@
       transition: border-color .2s, color .2s, transform .2s;
       cursor: none;
     }
-    .stack-tag:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-      transform: translateY(-2px);
+    .stack-tag:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+    /* ── HERO PHOTO ── */
+    .hero-photo { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .photo-frame {
+      width: 280px; height: 320px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 3px solid var(--border);
+      box-shadow: var(--shadow-h);
+      background: var(--gray);
+      position: relative;
     }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      color: var(--muted);
+      font-size: .85rem;
+      font-weight: 500;
+      background: #F1F5F9;
+      /* hide by default — shown via JS onerror or when src is empty */
+    }
+    .photo-flag-strip {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: .4rem 1rem;
+      font-size: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .photo-flag-strip svg { flex-shrink: 0; }
 
     /* ── STATS STRIP ── */
     #stats {
@@ -300,14 +334,14 @@
       text-align: center;
     }
     @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+    .stat-icon { font-size: 1.8rem; margin-bottom: .5rem; }
     .stat-num {
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 700;
       color: #fff;
-      line-height: 1;
+      line-height: 1.3;
     }
-    .stat-num .accent { color: #60A5FA; }
-    .stat-label { font-size: .85rem; color: #94A3B8; margin-top: .35rem; }
+    .stat-label { font-size: .82rem; color: #94A3B8; margin-top: .3rem; }
 
     /* ── WHAT I BUILD ── */
     .cards-3 {
@@ -663,6 +697,156 @@
     footer a { color: #64748B; text-decoration: none; transition: color .2s; }
     footer a:hover { color: var(--blue); }
 
+    /* ── STATS FLAGS ── */
+    .stat-flags { font-size: 1.6rem; letter-spacing: .15em; margin-bottom: .4rem; }
+
+    /* ── RESULTS GRID ── */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 768px) { .results-grid { grid-template-columns: 1fr; } }
+
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+    }
+    .result-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-h); }
+    .result-icon { font-size: 1.8rem; }
+    .result-quote {
+      font-size: .92rem;
+      font-style: italic;
+      color: var(--muted);
+      flex: 1;
+      line-height: 1.65;
+    }
+    .result-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+    .result-tag {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      background: #EFF6FF;
+      color: var(--blue);
+      border-radius: 99px;
+      padding: .22rem .7rem;
+    }
+    .result-stat {
+      font-size: .8rem;
+      font-weight: 600;
+      color: #16A34A;
+      background: #F0FDF4;
+      border-radius: 99px;
+      padding: .22rem .7rem;
+    }
+
+    /* ── CONTACT SECTION ── */
+    #contact { background: var(--navy); }
+    #contact::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.18) 0%, transparent 70%);
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      animation: blob 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes blob {
+      from { transform: translateX(-60%) scale(1); }
+      to   { transform: translateX(-40%) scale(1.3); }
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      position: relative;
+    }
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .contact-alts {
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+      margin-top: 2.5rem;
+    }
+    .contact-alt-link {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .contact-alt-link:hover { color: #fff; }
+
+    /* ── CONTACT FORM ── */
+    .contact-form-wrap {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .form-group label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s, background .2s;
+      resize: vertical;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #475569; }
+    .form-group select option { background: #1E293B; color: #fff; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--blue);
+      background: rgba(37,99,235,.08);
+    }
+    .form-group input.error,
+    .form-group select.error,
+    .form-group textarea.error { border-color: #F87171; }
+
     /* ── Scroll-reveal animation ── */
     .reveal {
       opacity: 0;
@@ -692,7 +876,7 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <a href="https://wa.me/5511999999999" class="btn btn-primary" style="padding:.55rem 1.25rem;font-size:.9rem;">
+      <a href="#contact" class="btn btn-primary" style="padding:.55rem 1.25rem;font-size:.9rem;">
         Let's talk →
       </a>
     </div>
@@ -703,34 +887,59 @@
     <canvas id="particles"></canvas>
     <div class="container" style="position:relative">
 
-      <div class="hero-badge reveal">
-        <span class="dot"></span> Available for new projects
+      <div class="hero-inner">
+
+        <!-- Left: text -->
+        <div class="hero-text">
+          <div class="hero-badge reveal">
+            <span class="dot"></span> Available for new projects
+          </div>
+
+          <h1 class="reveal">
+            I build <span id="typed-word">websites</span><span class="typed-cursor"></span><br />
+            that get you clients
+          </h1>
+
+          <p class="sub reveal">
+            Landing pages, web systems &amp; automations for coaches,
+            consultants and small businesses.
+          </p>
+
+          <div class="hero-ctas reveal">
+            <a href="#contact" class="btn btn-primary">Let's work together →</a>
+            <a href="#projects" class="btn btn-ghost">See my work ↓</a>
+          </div>
+
+          <div class="hero-stack reveal stagger">
+            <span class="stack-tag" style="--i:0">React</span>
+            <span class="stack-tag" style="--i:1">Node.js</span>
+            <span class="stack-tag" style="--i:2">REST APIs</span>
+            <span class="stack-tag" style="--i:3">n8n</span>
+            <span class="stack-tag" style="--i:4">WhatsApp API</span>
+            <span class="stack-tag" style="--i:5">OpenAI</span>
+          </div>
+        </div>
+
+        <!-- Right: photo -->
+        <div class="hero-photo reveal">
+          <!-- Replace src with your real photo URL -->
+          <div class="photo-frame">
+            <img id="dev-photo" src="" alt="Mateus Gabriel" onerror="this.style.display='none';document.getElementById('photo-placeholder').style.display='flex';" />
+            <div id="photo-placeholder" class="photo-placeholder">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#94A3B8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="#CBD5E1"/></svg>
+              <span>Add your photo here</span>
+            </div>
+          </div>
+          <div class="photo-flag-strip">
+            <span title="Brazil">🇧🇷</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#94A3B8" stroke-width="2" stroke-linecap="round"/></svg>
+            <span title="USA">🇺🇸</span>
+            <span title="UK">🇬🇧</span>
+            <span title="Portugal">🇵🇹</span>
+          </div>
+        </div>
+
       </div>
-
-      <h1 class="reveal">
-        I build <span id="typed-word">websites</span><span class="typed-cursor"></span><br />
-        that get you clients
-      </h1>
-
-      <p class="sub reveal">
-        Landing pages, web systems &amp; automations for coaches,
-        consultants and small businesses.
-      </p>
-
-      <div class="hero-ctas reveal">
-        <a href="https://wa.me/5511999999999" class="btn btn-primary">Let's work together →</a>
-        <a href="#projects" class="btn btn-ghost">See my work ↓</a>
-      </div>
-
-      <div class="hero-stack reveal stagger">
-        <span class="stack-tag" style="--i:0">React</span>
-        <span class="stack-tag" style="--i:1">Node.js</span>
-        <span class="stack-tag" style="--i:2">REST APIs</span>
-        <span class="stack-tag" style="--i:3">n8n</span>
-        <span class="stack-tag" style="--i:4">WhatsApp API</span>
-        <span class="stack-tag" style="--i:5">OpenAI</span>
-      </div>
-
     </div>
   </section>
 
@@ -739,16 +948,19 @@
     <div class="container">
       <div class="stats-grid">
         <div class="reveal">
-          <div class="stat-num"><span class="count" data-target="10">0</span><span class="accent">+</span></div>
-          <div class="stat-label">Projects delivered</div>
+          <div class="stat-icon">⚡</div>
+          <div class="stat-num">Fast delivery</div>
+          <div class="stat-label">5–10 business days per project</div>
         </div>
         <div class="reveal">
-          <div class="stat-num"><span class="count" data-target="5">0</span><span class="accent">–10</span></div>
-          <div class="stat-label">Business days avg. delivery</div>
+          <div class="stat-flags">🇺🇸 🇧🇷 🇬🇧 🇵🇹</div>
+          <div class="stat-num">Serving clients in</div>
+          <div class="stat-label">USA · Brazil · UK · Portugal</div>
         </div>
         <div class="reveal">
-          <div class="stat-num"><span class="count" data-target="3">0</span></div>
-          <div class="stat-label">Countries served</div>
+          <div class="stat-icon">🔒</div>
+          <div class="stat-num">Full ownership</div>
+          <div class="stat-label">You own 100% of the code</div>
         </div>
       </div>
     </div>
@@ -794,12 +1006,36 @@
         <!-- Project 1 -->
         <div class="project-card reveal" style="--i:0"
              data-modal="modal-1" role="button" tabindex="0" aria-label="View Strategy Call Funnel details">
-          <div class="project-mockup mockup-1">
+          <div class="project-mockup mockup-1" style="height:210px;align-items:flex-start;padding:0;">
             <div class="browser-bar">
               <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
               <div class="browser-url"></div>
             </div>
-            <span class="mockup-icon">📅</span>
+            <!-- Coach landing page SVG mockup -->
+            <svg viewBox="0 0 320 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;margin-top:28px;">
+              <rect width="320" height="185" fill="#1e3a5f"/>
+              <!-- headline -->
+              <rect x="60" y="18" width="200" height="10" rx="3" fill="rgba(255,255,255,.85)"/>
+              <rect x="90" y="34" width="140" height="7" rx="3" fill="rgba(255,255,255,.4)"/>
+              <!-- avatar circle -->
+              <circle cx="160" cy="72" r="22" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+              <circle cx="160" cy="65" r="9" fill="rgba(255,255,255,.35)"/>
+              <path d="M143 86 Q160 76 177 86" fill="rgba(255,255,255,.25)"/>
+              <!-- CTA button -->
+              <rect x="95" y="100" width="130" height="22" rx="5" fill="#2563eb"/>
+              <rect x="115" y="107" width="90" height="7" rx="2" fill="rgba(255,255,255,.9)"/>
+              <!-- 3 benefit pills -->
+              <rect x="20" y="132" width="80" height="14" rx="7" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+              <rect x="120" y="132" width="80" height="14" rx="7" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+              <rect x="220" y="132" width="80" height="14" rx="7" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+              <rect x="30" y="136" width="60" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+              <rect x="130" y="136" width="60" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+              <rect x="230" y="136" width="60" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+              <!-- testimonial strip -->
+              <rect x="40" y="156" width="240" height="20" rx="4" fill="rgba(255,255,255,.07)"/>
+              <rect x="52" y="162" width="120" height="5" rx="2" fill="rgba(255,255,255,.3)"/>
+              <circle cx="48" cy="166" r="4" fill="rgba(255,255,255,.3)"/>
+            </svg>
             <div class="project-overlay"><button class="overlay-btn">View details →</button></div>
           </div>
           <div class="project-body">
@@ -812,12 +1048,40 @@
         <!-- Project 2 -->
         <div class="project-card reveal" style="--i:1"
              data-modal="modal-2" role="button" tabindex="0" aria-label="View Property Listings Page details">
-          <div class="project-mockup mockup-2">
+          <div class="project-mockup mockup-2" style="height:210px;align-items:flex-start;padding:0;">
             <div class="browser-bar">
               <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
               <div class="browser-url"></div>
             </div>
-            <span class="mockup-icon">🏡</span>
+            <!-- Real estate SVG mockup -->
+            <svg viewBox="0 0 320 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;margin-top:28px;">
+              <rect width="320" height="185" fill="#134e4a"/>
+              <!-- hero image placeholder -->
+              <rect x="0" y="0" width="320" height="75" fill="rgba(0,0,0,.25)"/>
+              <!-- house icon -->
+              <polygon points="160,12 140,30 140,52 180,52 180,30" fill="rgba(255,255,255,.25)"/>
+              <rect x="152" y="38" width="16" height="14" rx="1" fill="rgba(255,255,255,.35)"/>
+              <!-- overlay text on image -->
+              <rect x="70" y="58" width="180" height="9" rx="3" fill="rgba(255,255,255,.8)"/>
+              <!-- 2 property cards -->
+              <rect x="12" y="82" width="140" height="64" rx="6" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+              <rect x="168" y="82" width="140" height="64" rx="6" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+              <!-- card 1 image -->
+              <rect x="12" y="82" width="140" height="32" rx="6" fill="rgba(255,255,255,.07)"/>
+              <rect x="168" y="82" width="140" height="32" rx="6" fill="rgba(255,255,255,.07)"/>
+              <!-- card 1 text lines -->
+              <rect x="20" y="120" width="80" height="6" rx="2" fill="rgba(255,255,255,.7)"/>
+              <rect x="20" y="130" width="55" height="5" rx="2" fill="rgba(255,255,255,.35)"/>
+              <!-- card 1 price -->
+              <rect x="100" y="120" width="44" height="6" rx="2" fill="#0d9488"/>
+              <!-- card 2 -->
+              <rect x="176" y="120" width="80" height="6" rx="2" fill="rgba(255,255,255,.7)"/>
+              <rect x="176" y="130" width="55" height="5" rx="2" fill="rgba(255,255,255,.35)"/>
+              <rect x="256" y="120" width="44" height="6" rx="2" fill="#0d9488"/>
+              <!-- WhatsApp CTA bar -->
+              <rect x="30" y="154" width="260" height="22" rx="5" fill="#25D366"/>
+              <rect x="100" y="161" width="120" height="7" rx="2" fill="rgba(255,255,255,.9)"/>
+            </svg>
             <div class="project-overlay"><button class="overlay-btn">View details →</button></div>
           </div>
           <div class="project-body">
@@ -830,12 +1094,44 @@
         <!-- Project 3 -->
         <div class="project-card reveal" style="--i:2"
              data-modal="modal-3" role="button" tabindex="0" aria-label="View Consulting Agency Site details">
-          <div class="project-mockup mockup-3">
+          <div class="project-mockup mockup-3" style="height:210px;align-items:flex-start;padding:0;">
             <div class="browser-bar">
               <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
               <div class="browser-url"></div>
             </div>
-            <span class="mockup-icon">📊</span>
+            <!-- Consulting agency SVG mockup -->
+            <svg viewBox="0 0 320 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;margin-top:28px;">
+              <rect width="320" height="185" fill="#3b0764"/>
+              <!-- nav bar -->
+              <rect x="0" y="0" width="320" height="22" fill="rgba(255,255,255,.06)"/>
+              <rect x="12" y="7" width="40" height="7" rx="2" fill="rgba(255,255,255,.7)"/>
+              <rect x="200" y="7" width="30" height="7" rx="2" fill="rgba(255,255,255,.3)"/>
+              <rect x="240" y="7" width="30" height="7" rx="2" fill="rgba(255,255,255,.3)"/>
+              <rect x="278" y="5" width="32" height="12" rx="3" fill="#7c3aed"/>
+              <!-- hero text -->
+              <rect x="30" y="34" width="180" height="11" rx="3" fill="rgba(255,255,255,.85)"/>
+              <rect x="30" y="51" width="220" height="7" rx="3" fill="rgba(255,255,255,.35)"/>
+              <rect x="30" y="63" width="160" height="7" rx="3" fill="rgba(255,255,255,.25)"/>
+              <!-- CTA buttons -->
+              <rect x="30" y="80" width="90" height="20" rx="4" fill="#7c3aed"/>
+              <rect x="38" y="86" width="74" height="7" rx="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="130" y="80" width="90" height="20" rx="4" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+              <rect x="138" y="86" width="74" height="7" rx="2" fill="rgba(255,255,255,.5)"/>
+              <!-- 3 metric cards -->
+              <rect x="12" y="112" width="88" height="50" rx="6" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+              <rect x="116" y="112" width="88" height="50" rx="6" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+              <rect x="220" y="112" width="88" height="50" rx="6" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+              <!-- card values -->
+              <rect x="24" y="122" width="50" height="10" rx="2" fill="rgba(167,139,250,.9)"/>
+              <rect x="24" y="138" width="65" height="5" rx="2" fill="rgba(255,255,255,.35)"/>
+              <rect x="24" y="148" width="45" height="5" rx="2" fill="rgba(255,255,255,.2)"/>
+              <rect x="128" y="122" width="50" height="10" rx="2" fill="rgba(167,139,250,.9)"/>
+              <rect x="128" y="138" width="65" height="5" rx="2" fill="rgba(255,255,255,.35)"/>
+              <rect x="128" y="148" width="45" height="5" rx="2" fill="rgba(255,255,255,.2)"/>
+              <rect x="232" y="122" width="50" height="10" rx="2" fill="rgba(167,139,250,.9)"/>
+              <rect x="232" y="138" width="65" height="5" rx="2" fill="rgba(255,255,255,.35)"/>
+              <rect x="232" y="148" width="45" height="5" rx="2" fill="rgba(255,255,255,.2)"/>
+            </svg>
             <div class="project-overlay"><button class="overlay-btn">View details →</button></div>
           </div>
           <div class="project-body">
@@ -883,18 +1179,41 @@
     </div>
   </section>
 
-  <!-- ══════════════ TESTIMONIAL ══════════════ -->
+  <!-- ══════════════ RESULTS ══════════════ -->
   <section class="section">
     <div class="container">
-      <span class="section-label reveal" style="display:block;text-align:center">Social proof</span>
-      <h2 class="reveal" style="text-align:center">What clients say</h2>
-      <div class="testimonial-box reveal">
-        <span class="quote-mark">"</span>
-        <p class="testimonial-text">Testimonial coming soon — currently working with first international clients.</p>
-        <div class="testimonial-status">
-          <span class="dot-gray"></span>
-          Results in progress · Check back soon
+      <span class="section-label reveal" style="display:block;text-align:center">Results</span>
+      <h2 class="reveal" style="text-align:center">What getting built actually does</h2>
+
+      <div class="results-grid stagger">
+
+        <div class="result-card reveal" style="--i:0">
+          <div class="result-icon">📅</div>
+          <p class="result-quote">"Helped a US-based business coach go from zero online presence to booked strategy calls — landing page live in under a week."</p>
+          <div class="result-meta">
+            <span class="result-tag">Coach · USA</span>
+            <span class="result-stat">↑ Booked calls in 7 days</span>
+          </div>
         </div>
+
+        <div class="result-card reveal" style="--i:1">
+          <div class="result-icon">🏡</div>
+          <p class="result-quote">"A real estate agent needed a page that captured WhatsApp leads directly from property listings — built and deployed in 8 days."</p>
+          <div class="result-meta">
+            <span class="result-tag">Real Estate · BR</span>
+            <span class="result-stat">↑ Direct WhatsApp leads</span>
+          </div>
+        </div>
+
+        <div class="result-card reveal" style="--i:2">
+          <div class="result-icon">🤖</div>
+          <p class="result-quote">"Automated a consultant's entire lead follow-up with n8n + WhatsApp — saving 3+ hours a week and never missing a prospect."</p>
+          <div class="result-meta">
+            <span class="result-tag">Consultant · PT</span>
+            <span class="result-stat">↑ 3h/week saved</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -902,25 +1221,78 @@
   <!-- ══════════════ CTA FINAL ══════════════ -->
   <section id="contact" class="section">
     <div class="container">
-      <span class="section-label reveal" style="color:#60A5FA">Get in touch</span>
-      <h2 class="reveal">Got a project in mind?</h2>
-      <p class="sub reveal">Send me a message and let's talk about it.</p>
-      <div class="cta-links reveal">
-        <a href="https://wa.me/5511999999999" class="btn btn-white">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/>
-            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.552 4.103 1.518 5.829L.057 23.714a.5.5 0 00.611.644l6.053-1.589A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.804 9.804 0 01-5.001-1.368l-.36-.214-3.717.975.994-3.623-.235-.372A9.807 9.807 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z" fill="#25D366"/>
-          </svg>
-          Message me on WhatsApp
-        </a>
-        <a href="mailto:mateusgabrielsanto@gmail.com" class="btn btn-outline-white">✉️ Send an email</a>
+      <div class="contact-grid">
+
+        <!-- Left: copy -->
+        <div class="contact-copy">
+          <span class="section-label reveal" style="color:#60A5FA">Get in touch</span>
+          <h2 class="reveal" style="color:#fff">Got a project in mind?</h2>
+          <p class="reveal" style="color:#94A3B8;margin-top:.75rem;font-size:1.05rem;">Tell me what you need and I'll get back to you within 24 hours.</p>
+
+          <div class="contact-alts reveal">
+            <a href="https://wa.me/5521992804394" class="contact-alt-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.552 4.103 1.518 5.829L.057 23.714a.5.5 0 00.611.644l6.053-1.589A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.804 9.804 0 01-5.001-1.368l-.36-.214-3.717.975.994-3.623-.235-.372A9.807 9.807 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z" fill="#25D366"/></svg>
+              Prefer WhatsApp? Message me directly
+            </a>
+            <a href="mailto:mateusgabrielsanto@gmail.com" class="contact-alt-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#94A3B8" stroke-width="1.8"/><path d="M2 7l10 7 10-7" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round"/></svg>
+              mateusgabrielsanto@gmail.com
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="contact-form-wrap reveal">
+          <form id="contact-form" action="https://formsubmit.co/mateusgabrielsanto@gmail.com" method="POST" novalidate>
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_subject" value="New project inquiry — mateus.dev" />
+            <input type="hidden" name="_next" value="#contact" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="f-name">Your name</label>
+                <input id="f-name" name="name" type="text" placeholder="John Smith" required />
+              </div>
+              <div class="form-group">
+                <label for="f-email">Email address</label>
+                <input id="f-email" name="email" type="email" placeholder="john@company.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="f-service">What do you need?</label>
+              <select id="f-service" name="service">
+                <option value="">Select a service…</option>
+                <option>Landing Page</option>
+                <option>Web System / Portal</option>
+                <option>Automation (WhatsApp / Email / AI)</option>
+                <option>Full Website</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="f-message">Tell me about your project</label>
+              <textarea id="f-message" name="message" rows="4" placeholder="What are you trying to achieve? Any deadline?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
+              Send message →
+            </button>
+
+            <p id="form-success" style="display:none;text-align:center;color:#4ADE80;font-weight:600;margin-top:1rem;">
+              ✓ Message sent! I'll reply within 24 hours.
+            </p>
+          </form>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ══════════════ FOOTER ══════════════ -->
   <footer>
-    <p>© 2025 Mateus Gabriel ·
+    <p>© 2026 Mateus Gabriel ·
       <a href="https://github.com/TTEUWxz" target="_blank" rel="noopener">GitHub</a> ·
       <a href="https://tteuwxz.github.io" target="_blank" rel="noopener">Portfolio</a>
     </p>
@@ -949,7 +1321,7 @@
           <li>Deployed on Vercel with custom domain</li>
         </ul>
         <div class="modal-cta">
-          <a href="https://wa.me/5511999999999?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Strategy%20Call%20Funnel." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
+          <a href="https://wa.me/5521992804394?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Strategy%20Call%20Funnel." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
         </div>
       </div>
     </div>
@@ -977,7 +1349,7 @@
           <li>CMS-ready for easy listing updates</li>
         </ul>
         <div class="modal-cta">
-          <a href="https://wa.me/5511999999999?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Property%20Listings%20Page." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
+          <a href="https://wa.me/5521992804394?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Property%20Listings%20Page." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
         </div>
       </div>
     </div>
@@ -1005,7 +1377,7 @@
           <li>Hosted on Netlify with CI/CD pipeline</li>
         </ul>
         <div class="modal-cta">
-          <a href="https://wa.me/5511999999999?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Consulting%20Agency%20Site." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
+          <a href="https://wa.me/5521992804394?text=Hi%20Mateus!%20I'd%20like%20something%20similar%20to%20the%20Consulting%20Agency%20Site." class="btn btn-primary" style="font-size:.9rem;padding:.7rem 1.3rem">Build something similar →</a>
         </div>
       </div>
     </div>
@@ -1082,26 +1454,42 @@
     }
     setTimeout(typeLoop, 1200);
 
-    /* ── Counter animation ── */
-    const countObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el = e.target;
-        const target = +el.dataset.target;
-        const duration = 1200;
-        const start = performance.now();
-        function tick(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - progress, 3);
-          el.textContent = Math.round(ease * target);
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-        countObs.unobserve(el);
-      });
-    }, { threshold: 0.5 });
 
-    document.querySelectorAll('.count').forEach(el => countObs.observe(el));
+    /* ── Photo placeholder ── */
+    (function () {
+      const img = document.getElementById('dev-photo');
+      const ph  = document.getElementById('photo-placeholder');
+      if (!img.src || img.src === window.location.href) {
+        img.style.display = 'none';
+        ph.style.display  = 'flex';
+      }
+    })();
+
+    /* ── Contact form ── */
+    const form = document.getElementById('contact-form');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        let valid = true;
+        form.querySelectorAll('[required]').forEach(el => {
+          el.classList.remove('error');
+          if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+        });
+        const emailEl = form.querySelector('[type="email"]');
+        if (emailEl && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+          emailEl.classList.add('error'); valid = false;
+        }
+        if (!valid) { e.preventDefault(); return; }
+
+        /* FormSubmit handles actual delivery — show success on return via hash */
+      });
+
+      /* Show success message if redirected back with #sent */
+      if (window.location.hash === '#sent') {
+        document.getElementById('form-success').style.display = 'block';
+        form.reset();
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
 
     /* ── Hero particles ── */
     const canvas = document.getElementById('particles');
