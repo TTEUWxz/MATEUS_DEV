@@ -381,15 +381,12 @@
     }
     .hero-wave-breathe {
       position: absolute;
-      left: 50%; bottom: 0;
-      width: 1050px; height: 72%;
-      transform: translateX(-50%) scaleY(1);
+      left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 72%;
+      transform: scaleY(1);
       transform-origin: bottom center;
-      animation: waveBreathe 9s ease-in-out infinite;
-    }
-    @keyframes waveBreathe {
-      0%, 100% { transform: translateX(-50%) scaleY(.82); }
-      50%      { transform: translateX(-50%) scaleY(1.12); }
+      will-change: transform;
     }
     .hero-wave-viewport {
       position: absolute;
@@ -400,11 +397,7 @@
       position: absolute;
       top: 0; left: 0;
       width: 200%; height: 100%;
-      animation: waveScroll 13s linear infinite;
-    }
-    @keyframes waveScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      will-change: transform;
     }
     @keyframes glowDrift {
       0%, 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: .85; }
@@ -459,7 +452,7 @@
     }
     @keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
     @media (max-width: 700px) {
-      .hero-headline { position: static; max-width: 100%; text-align: left; padding: 130px 1.5rem 0; }
+      .hero-headline { position: static; max-width: 100%; text-align: left; padding: 205px 1.5rem 0; }
     }
 
     /* oversized cropped wordmark — sits directly on the traveling wave and is
@@ -469,7 +462,7 @@
       left: 0; right: 0; bottom: -4%;
       width: 100%;
       text-align: center;
-      font-size: clamp(3.4rem, 16.5vw, 11.5rem);
+      font-size: clamp(3.4rem, 13.5vw, 19rem);
       font-weight: 900;
       letter-spacing: -.045em;
       line-height: 1;
@@ -482,6 +475,9 @@
       will-change: transform;
     }
     footer .giant-word { position: relative; bottom: auto; z-index: 0; color: rgba(255,255,255,.05); mix-blend-mode: normal; }
+    @media (max-width: 700px) {
+      #hero .giant-word { font-size: clamp(6rem, 24vw, 10rem); bottom: -2%; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .hero-wave, .hero-wave-breathe, .bounce-arrow, .giant-word { animation: none !important; }
@@ -1494,6 +1490,42 @@
       const heroWave = document.getElementById('hero-wave');
       if (heroWave && heroWave.pauseAnimations) heroWave.pauseAnimations();
     }
+
+    /* ── Hero wave: organic, non-repeating drift + breathing (layered sines, randomized phase) ── */
+    (function () {
+      const breathe  = document.querySelector('.hero-wave-breathe');
+      const scroller = document.getElementById('hero-wave');
+      if (!breathe || !scroller || reduceMotion) return;
+
+      const p1 = Math.random() * Math.PI * 2;
+      const p2 = Math.random() * Math.PI * 2;
+      const p3 = Math.random() * Math.PI * 2;
+      const p4 = Math.random() * Math.PI * 2;
+
+      let posPx = -Math.random() * 400;
+      let lastT = performance.now();
+
+      function frame(now) {
+        const dt = Math.min((now - lastT) / 1000, 0.05);
+        lastT = now;
+        const t = now / 1000;
+
+        // wandering speed (px/s) — never fully reverses, but drifts unevenly, sometimes near-stalling
+        const speed = 16 + 11 * Math.sin(t * 0.11 + p1) + 7 * Math.sin(t * 0.043 + p2);
+        const halfWidth = (scroller.clientWidth || 1600) / 2;
+        posPx -= speed * dt;
+        if (posPx < -halfWidth) posPx += halfWidth;
+        if (posPx > 0) posPx -= halfWidth;
+        scroller.style.transform = `translateX(${posPx}px)`;
+
+        // wandering height — layered sines with unrelated periods so peaks/valleys never repeat evenly
+        const scaleY = 0.97 + 0.15 * Math.sin(t * 0.19 + p3) + 0.09 * Math.sin(t * 0.076 + p4);
+        breathe.style.transform = `scaleY(${scaleY.toFixed(3)})`;
+
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
 
     /* ── Fullscreen menu ── */
     const menuToggle  = document.getElementById('menu-toggle');
