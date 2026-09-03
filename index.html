@@ -1034,7 +1034,9 @@
                 <stop offset="100%" stop-color="#0B1F4D" stop-opacity=".16"/>
               </linearGradient>
               <filter id="waveBlur" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="16"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blurred"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="2" seed="7" result="noise"/>
+                <feDisplacementMap in="blurred" in2="noise" scale="55" xChannelSelector="R" yChannelSelector="G"/>
               </filter>
             </defs>
             <path fill="url(#waveGrad)" filter="url(#waveBlur)">
