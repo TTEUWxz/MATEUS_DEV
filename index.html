@@ -456,13 +456,13 @@
     }
 
     /* oversized cropped wordmark — sits directly on the traveling wave and is
-       lit by it via mix-blend-mode, instead of carrying its own gradient */
+       stays clearly legible on its own, with a soft blue glow tying it to the wave */
     .giant-word {
       position: absolute;
       left: 0; right: 0; bottom: -4%;
       width: 100%;
       text-align: center;
-      font-size: clamp(4.5rem, 17vw, 24rem);
+      font-size: clamp(7rem, 42vw, 52rem);
       font-weight: 900;
       letter-spacing: -.045em;
       line-height: 1;
@@ -476,7 +476,7 @@
     }
     footer .giant-word { position: relative; bottom: auto; z-index: 0; color: rgba(255,255,255,.05); mix-blend-mode: normal; }
     @media (max-width: 700px) {
-      #hero .giant-word { font-size: clamp(7.5rem, 30vw, 13rem); bottom: -2%; }
+      #hero .giant-word { font-size: clamp(7rem, 40vw, 15rem); bottom: -2%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1067,7 +1067,7 @@
       </h1>
     </div>
 
-    <div class="giant-word" id="giant-word">MATEUSDEV</div>
+    <div class="giant-word" id="giant-word">MDEV</div>
   </section>
 
   <!-- ══════════════ INTRO ══════════════ -->
@@ -1359,7 +1359,7 @@
       </div>
       <div class="footer-bottom">© 2026 Mateus Dev. Todos os direitos reservados.</div>
     </div>
-    <div class="giant-word">MATEUSDEV</div>
+    <div class="giant-word">MDEV</div>
   </footer>
 
   <!-- ══════════════ MODALS ══════════════ -->
